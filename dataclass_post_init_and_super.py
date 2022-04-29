@@ -1,5 +1,5 @@
 """
-Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with additions
+Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with Enum class
 """
 
 from dataclasses import dataclass
