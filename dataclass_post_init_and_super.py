@@ -32,7 +32,7 @@ class Employee:
     def say_id(self) -> str:
         """Displays the employee's id and role."""
 
-        return f"my id is {self.employee_id} and my role is that of {self.employee_role.value}."
+        return f"my id is {self.employee_id} and I am a {self.employee_role.value}."
 
 
 @dataclass(kw_only=True)
