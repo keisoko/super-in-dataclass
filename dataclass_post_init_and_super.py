@@ -1,9 +1,15 @@
 """
 Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with Enum class
 """
-
-from dataclasses import dataclass
+import random
+import string
+from dataclasses import dataclass, field
 from enum import Enum
+
+
+def generate_id(length: int = 8) -> str:
+    """Helper function to generate id."""
+    return "".join(random.choices(string.ascii_uppercase, k=length))
 
 
 class Role(Enum):
@@ -17,19 +23,17 @@ class Role(Enum):
 class Employee:
     """Employee parent class."""
 
-    new_id = 1
     name: str
     age: int
     employee_role: Role
+    employee_id: str = field(init=False)
 
     def __post_init__(self) -> None:
-        """Increments the employee's id."""
-
-        self.employee_id = Employee.new_id
-        Employee.new_id += 1
+        """Initialize the employee's id."""
+        self.employee_id = generate_id()
 
     @property
-    def say_id(self) -> str:
+    def say_id_and_role(self) -> str:
         """Displays the employee's id and role."""
 
         return f"my id is {self.employee_id} and I am a {self.employee_role.value}."
@@ -40,9 +44,9 @@ class Manager(Employee):
     """Manager class"""
 
     @property
-    def say_id(self) -> str:
+    def say_id_and_role(self) -> str:
         """Extends the parent say_id method"""
-        return f"{super().say_id}"
+        return f"{super().say_id_and_role}"
 
 
 def main() -> None:
@@ -72,13 +76,15 @@ def main() -> None:
     workers = [worker1, worker2]
 
     for worker in workers:
-        print(f"My name is {worker.name}, I am {worker.age} years old, {worker.say_id}")
+        print(
+            f"My name is {worker.name}, I am {worker.age} years old, {worker.say_id_and_role}"
+        )
 
     managers = [manager1, manager2]
 
     for manager in managers:
         print(
-            f"My name is {manager.name}, I am {manager.age} years old, {manager.say_id}"
+            f"My name is {manager.name}, I am {manager.age} years old, {manager.say_id_and_role}"
         )
 
 
