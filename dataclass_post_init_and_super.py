@@ -19,7 +19,7 @@ class Role(Enum):
     MANAGER = "Manager"
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, slots=True)
 class Employee:
     """Employee parent class."""
 
