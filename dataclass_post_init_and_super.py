@@ -1,15 +1,10 @@
 """
 Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with Enum class
 """
-import random
-import string
 from dataclasses import dataclass, field
 from enum import Enum
 
-
-def generate_id(length: int = 8) -> str:
-    """Helper function to generate id."""
-    return "".join(random.choices(string.ascii_uppercase, k=length))
+import my_python_modules
 
 
 class Role(Enum):
@@ -30,7 +25,7 @@ class Employee:
 
     def __post_init__(self) -> None:
         """Initialize the employee's id."""
-        self.employee_id = generate_id()
+        self.employee_id = my_python_modules.generate_id(length=8)
 
     @property
     def say_id_and_role(self) -> str:
