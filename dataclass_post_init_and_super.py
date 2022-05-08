@@ -14,7 +14,7 @@ class Role(Enum):
     MANAGER = "Manager"
 
 
-@dataclass(kw_only=True, slots=True)
+@dataclass(slots=True)
 class Employee:
     """Employee parent class."""
 
@@ -34,7 +34,7 @@ class Employee:
         return f"my id is {self.employee_id} and I am a {self.employee_role.value}."
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Manager(Employee):
     """Manager class"""
 
