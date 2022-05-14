@@ -23,8 +23,8 @@ class Role(Enum):
 class Employee:
     """Employee parent class."""
 
-    name: str
-    age: int
+    person_name: str
+    person_age: int
     employee_role: Role
     employee_id: str = field(init=False)
 
@@ -62,23 +62,23 @@ def main() -> None:
     """Main function"""
 
     worker1 = Worker(
-        name="Mary",
-        age=30,
+        person_name="Mary",
+        person_age=30,
         employee_role=Role.WORKER,
     )
     worker2 = Worker(
-        name="John",
-        age=35,
+        person_name="John",
+        person_age=35,
         employee_role=Role.WORKER,
     )
     manager1 = Manager(
-        name="Brandon",
-        age=40,
+        person_name="Brandon",
+        person_age=40,
         employee_role=Role.MANAGER,
     )
     manager2 = Manager(
-        name="Mark",
-        age=45,
+        person_name="Mark",
+        person_age=45,
         employee_role=Role.MANAGER,
     )
 
@@ -86,14 +86,14 @@ def main() -> None:
 
     for worker in workers:
         print(
-            f"My name is {worker.name}, I am {worker.age} years old, {worker.say_id_and_role}"
+            f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
         )
 
     managers = [manager1, manager2]
 
     for manager in managers:
         print(
-            f"My name is {manager.name}, I am {manager.age} years old, {manager.say_id_and_role}"
+            f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_id_and_role}"
         )
 
 
