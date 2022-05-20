@@ -58,8 +58,8 @@ class Manager(Employee):
         return f"{super().say_id_and_role}"
 
 
-def main() -> None:
-    """Main function"""
+class InstancesManager:
+    """Holds the class instances"""
 
     worker1 = Worker(
         person_name="Mary",
@@ -82,14 +82,18 @@ def main() -> None:
         employee_role=Role.MANAGER,
     )
 
-    workers = [worker1, worker2]
+
+def main() -> None:
+    """Main function"""
+
+    workers = [InstancesManager.worker1, InstancesManager.worker2]
 
     for worker in workers:
         print(
             f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
         )
 
-    managers = [manager1, manager2]
+    managers = [InstancesManager.manager1, InstancesManager.manager2]
 
     for manager in managers:
         print(
