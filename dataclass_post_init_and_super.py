@@ -86,14 +86,20 @@ class InstancesManager:
 def main() -> None:
     """Main function"""
 
-    workers = [InstancesManager.worker1, InstancesManager.worker2]
+    worker1 = InstancesManager.worker1
+    worker2 = InstancesManager.worker2
+
+    workers = [worker1, worker2]
 
     for worker in workers:
         print(
             f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
         )
 
-    managers = [InstancesManager.manager1, InstancesManager.manager2]
+    manager1 = InstancesManager.manager1
+    manager2 = InstancesManager.manager2
+
+    managers = [manager1, manager2]
 
     for manager in managers:
         print(
