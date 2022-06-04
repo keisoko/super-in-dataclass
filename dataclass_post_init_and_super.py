@@ -1,10 +1,12 @@
 """
-Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with Enum class
+Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init_, Enum class, Protocol and no super() method. 
 """
+
 import random
 import string
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Protocol
 
 
 def generate_id(length: int):
@@ -19,7 +21,13 @@ class Role(Enum):
     MANAGER = "Manager"
 
 
-@dataclass(slots=True)
+class SayIdAndRole(Protocol):
+    def say_id_and_role(self) -> str:
+        """Displays the employee's id and role."""
+        ...
+
+
+@dataclass(slots=True, kw_only=True)
 class Employee:
     """Employee parent class."""
 
@@ -34,28 +42,19 @@ class Employee:
 
     @property
     def say_id_and_role(self) -> str:
-        """Displays the employee's id and role."""
+        """Implements the say_id and_role method from Protocol class."""
 
         return f"my id is {self.employee_id} and I am a {self.employee_role.value}."
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Worker(Employee):
     """Worker class"""
 
-    @property
-    def say_id_and_role(self) -> str:
-        """Extends the parent say_id method"""
-        return f"{super().say_id_and_role}"
 
-
+@dataclass(kw_only=True)
 class Manager(Employee):
     """Manager class"""
-
-    @property
-    def say_id_and_role(self) -> str:
-        """Extends the parent say_id method"""
-        return f"{super().say_id_and_role}"
 
 
 class InstancesManager:
