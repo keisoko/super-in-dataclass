@@ -1,0 +1,139 @@
+"""
+Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init_, Enum class, Protocol and no super() method. 
+"""
+
+import random
+import string
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Protocol
+
+
+def generate_id(length: int):
+    """Helper function to generate id."""
+    return "".join(random.choices(string.hexdigits.upper(), k=length))
+
+
+class Role(Enum):
+    """Employee roles."""
+
+    WORKER = "Worker"
+    MANAGER = "Manager"
+    INTERN = "Intern"
+
+
+class SayIdAndRole(Protocol):
+    def say_id_and_role(self) -> str:
+        """Displays the employee's id and role."""
+        ...
+
+
+@dataclass(slots=True, kw_only=True)
+class Employee:
+    """Employee parent class."""
+
+    person_name: str
+    person_age: int
+    employee_role: Role
+    employee_id: str = field(init=False)
+
+    def __post_init__(self) -> None:
+        """Initialize the employee's id."""
+        self.employee_id = generate_id(length=8)
+
+    @property
+    def say_id_and_role(self) -> str:
+        """Implements the say_id and_role method from Protocol class."""
+        if self.employee_role.value[0] in "aeiouAEIOU":
+            return f"my id is {self.employee_id} and I am an {self.employee_role.value}."
+        else:
+            return f"my id is {self.employee_id} and I am a {self.employee_role.value}."    
+
+
+@dataclass(kw_only=True)
+class Worker(Employee):
+    """Worker class"""
+
+
+@dataclass(kw_only=True)
+class Manager(Employee):
+    """Manager class"""
+
+
+@dataclass(kw_only=True)
+class Intern(Employee):
+    """Intern class"""
+
+
+class InstancesManager:
+    """Holds the class instances"""
+
+    worker1 = Worker(
+        person_name="Mary",
+        person_age=30,
+        employee_role=Role.WORKER,
+    )
+    worker2 = Worker(
+        person_name="John",
+        person_age=35,
+        employee_role=Role.WORKER,
+    )
+    manager1 = Manager(
+        person_name="Brandon",
+        person_age=40,
+        employee_role=Role.MANAGER,
+    )
+    manager2 = Manager(
+        person_name="Mark",
+        person_age=45,
+        employee_role=Role.MANAGER,
+    )
+
+    intern1 = Intern(
+        person_name="Jennifer",
+        person_age=20,
+        employee_role=Role.INTERN
+
+    )
+    intern2 = Intern(
+        person_name="Brian",
+        person_age=19,
+        employee_role=Role.INTERN
+
+    )
+
+
+def main() -> None:
+    """Main function"""
+
+    worker1 = InstancesManager.worker1
+    worker2 = InstancesManager.worker2
+
+    workers = [worker1, worker2]
+
+    for worker in workers:
+        print(
+            f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
+        )
+
+    manager1 = InstancesManager.manager1
+    manager2 = InstancesManager.manager2
+
+    managers = [manager1, manager2]
+
+    for manager in managers:
+        print(
+            f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_id_and_role}"
+        )
+
+    intern1 = InstancesManager.intern1
+    intern2 = InstancesManager.intern2
+
+    interns = [intern1, intern2]
+
+    for intern in interns:
+        print(f"My name is {intern.person_name}, I am {intern.person_age} years old, {intern.say_id_and_role}")    
+
+
+if __name__ == "__main__":
+    main()
