@@ -19,6 +19,7 @@ class Role(Enum):
 
     WORKER = "Worker"
     MANAGER = "Manager"
+    INTERN = "Intern"
 
 
 class SayIdAndRole(Protocol):
@@ -43,8 +44,10 @@ class Employee:
     @property
     def say_id_and_role(self) -> str:
         """Implements the say_id and_role method from Protocol class."""
-
-        return f"my id is {self.employee_id} and I am a {self.employee_role.value}."
+        if self.employee_role.value[0] in "aeiouAEIOU":
+            return f"my id is {self.employee_id} and I am an {self.employee_role.value}."
+        else:
+            return f"my id is {self.employee_id} and I am a {self.employee_role.value}."    
 
 
 @dataclass(kw_only=True)
@@ -55,6 +58,11 @@ class Worker(Employee):
 @dataclass(kw_only=True)
 class Manager(Employee):
     """Manager class"""
+
+
+@dataclass(kw_only=True)
+class Intern(Employee):
+    """Intern class"""
 
 
 class InstancesManager:
@@ -81,6 +89,19 @@ class InstancesManager:
         employee_role=Role.MANAGER,
     )
 
+    intern1 = Intern(
+        person_name="Jennifer",
+        person_age=20,
+        employee_role=Role.INTERN
+
+    )
+    intern2 = Intern(
+        person_name="Brian",
+        person_age=19,
+        employee_role=Role.INTERN
+
+    )
+
 
 def main() -> None:
     """Main function"""
@@ -104,6 +125,14 @@ def main() -> None:
         print(
             f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_id_and_role}"
         )
+
+    intern1 = InstancesManager.intern1
+    intern2 = InstancesManager.intern2
+
+    interns = [intern1, intern2]
+
+    for intern in interns:
+        print(f"My name is {intern.person_name}, I am {intern.person_age} years old, {intern.say_id_and_role}")    
 
 
 if __name__ == "__main__":
