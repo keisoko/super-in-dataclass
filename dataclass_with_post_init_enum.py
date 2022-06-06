@@ -1,5 +1,5 @@
 """
-Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init__, Enum without super() method
+Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init__, and Enum 
 """
 
 import random
@@ -35,27 +35,39 @@ class Employee:
         self.employee_id = generate_id(length=8)
 
     @property
-    def say_id_and_role(self) -> str:
-        """Displays the employee's id and role."""
-        if self.employee_role.value[0] in "aeiouAEIOU":
-            return f"my id is {self.employee_id} and I am an {self.employee_role.value}."
-        else:
-            return f"my id is {self.employee_id} and I am a {self.employee_role.value}."    
+    def say_id(self) -> str:
+        """Displays the employee's id."""
+        return f"my id is {self.employee_id}."
 
 
 @dataclass(kw_only=True)
 class Worker(Employee):
     """Worker class"""
 
+    @property
+    def say_id_and_role(self):
+        """Adds a role of the worker."""
+        return f"{super().say_id} and I am a {self.employee_role.value}"
+
 
 @dataclass(kw_only=True)
 class Manager(Employee):
     """Manager class"""
 
+    @property
+    def say_id_and_role(self):
+        """Adds a role of the manager."""
+        return f"{super().say_id} and I am a {self.employee_role.value}"
+
 
 @dataclass(kw_only=True)
 class Intern(Employee):
     """Intern class"""
+    
+    @property
+    def say_id_and_role(self):
+        """Adds a role of the intern."""
+        return f"{super().say_id} and I am an {self.employee_role.value}"
 
 
 class InstancesManager:
