@@ -17,7 +17,3 @@ Here is list of links with more info:
 - Real Python article: [Data Classes in Python 3.7+ (Guide)](https://realpython.com/python-data-classes/)
 
 The use of the **`slots=True`** and **`kw_only=True`** keyword arguments in the `@dataclass` decorator requires Python 3.10.
-
-The implementation of the Protocol class from typing library requires Python 3.8+:
-
-- PEP 544 – Protocols: [PEP 544 – Protocols: Structural subtyping (static duck typing)](https://peps.python.org/pep-0544/)
