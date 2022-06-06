@@ -1,12 +1,11 @@
 """
-Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init_, Enum class, Protocol and no super() method. 
+Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init__, Enum without super() method
 """
 
 import random
 import string
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Protocol
 
 
 def generate_id(length: int):
@@ -20,12 +19,6 @@ class Role(Enum):
     WORKER = "Worker"
     MANAGER = "Manager"
     INTERN = "Intern"
-
-
-class SayIdAndRole(Protocol):
-    def say_id_and_role(self) -> str:
-        """Displays the employee's id and role."""
-        ...
 
 
 @dataclass(slots=True, kw_only=True)
@@ -43,7 +36,7 @@ class Employee:
 
     @property
     def say_id_and_role(self) -> str:
-        """Implements the say_id and_role method from Protocol class."""
+        """Displays the employee's id and role."""
         if self.employee_role.value[0] in "aeiouAEIOU":
             return f"my id is {self.employee_id} and I am an {self.employee_role.value}."
         else:
@@ -116,6 +109,8 @@ def main() -> None:
             f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
         )
 
+    print()    
+
     manager1 = InstancesManager.manager1
     manager2 = InstancesManager.manager2
 
@@ -125,6 +120,8 @@ def main() -> None:
         print(
             f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_id_and_role}"
         )
+
+    print()
 
     intern1 = InstancesManager.intern1
     intern2 = InstancesManager.intern2
