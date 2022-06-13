@@ -28,16 +28,23 @@ class Employee:
     person_name: str
     person_age: int
     employee_role: Role
+    email_address: str = field(init=False)
     employee_id: str = field(init=False)
 
     def __post_init__(self) -> None:
-        """Initialize the employee's id."""
+        """Initialize the employee's id and email address."""
+        self.email_address = f"{self.person_name.lower()}@company.com"
         self.employee_id = generate_id(length=8)
 
     @property
     def say_id(self) -> str:
         """Displays the employee's id."""
-        return f"my id is {self.employee_id}."
+        return f"my id is {self.employee_id}"
+
+    @property
+    def say_email(self) -> str:
+        """Displays the employee's email"""
+        return f"my email is {self.email_address}"
 
 
 @dataclass(kw_only=True)
@@ -63,7 +70,7 @@ class Manager(Employee):
 @dataclass(kw_only=True)
 class Intern(Employee):
     """Intern class"""
-    
+
     @property
     def say_id_and_role(self):
         """Adds a role of the intern."""
@@ -94,18 +101,8 @@ class InstancesManager:
         employee_role=Role.MANAGER,
     )
 
-    intern1 = Intern(
-        person_name="Jennifer",
-        person_age=20,
-        employee_role=Role.INTERN
-
-    )
-    intern2 = Intern(
-        person_name="Brian",
-        person_age=19,
-        employee_role=Role.INTERN
-
-    )
+    intern1 = Intern(person_name="Jennifer", person_age=20, employee_role=Role.INTERN)
+    intern2 = Intern(person_name="Brian", person_age=19, employee_role=Role.INTERN)
 
 
 def main() -> None:
@@ -118,10 +115,10 @@ def main() -> None:
 
     for worker in workers:
         print(
-            f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_id_and_role}"
+            f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_email}, {worker.say_id_and_role}"
         )
 
-    print()    
+    print()
 
     manager1 = InstancesManager.manager1
     manager2 = InstancesManager.manager2
@@ -130,7 +127,7 @@ def main() -> None:
 
     for manager in managers:
         print(
-            f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_id_and_role}"
+            f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_email}, {manager.say_id_and_role}"
         )
 
     print()
@@ -141,7 +138,9 @@ def main() -> None:
     interns = [intern1, intern2]
 
     for intern in interns:
-        print(f"My name is {intern.person_name}, I am {intern.person_age} years old, {intern.say_id_and_role}")    
+        print(
+            f"My name is {intern.person_name}, I am {intern.person_age} years old, {intern.say_email}, {intern.say_id_and_role}"
+        )
 
 
 if __name__ == "__main__":
