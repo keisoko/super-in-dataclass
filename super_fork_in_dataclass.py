@@ -33,7 +33,8 @@ class Employee:
 
     def __post_init__(self) -> None:
         """Initialize the employee's id and email address."""
-        self.email_address = f"{self.person_name.lower()}@company.com"
+        first_name, last_name = self.person_name.split(" ")
+        self.email_address = f"{first_name}.{last_name}@company.com"
         self.employee_id = generate_id(length=8)
 
     @property
@@ -81,28 +82,32 @@ class InstancesManager:
     """Holds the class instances"""
 
     worker1 = Worker(
-        person_name="Mary",
+        person_name="Mary Smith",
         person_age=30,
         employee_role=Role.WORKER,
     )
     worker2 = Worker(
-        person_name="John",
+        person_name="John Doe",
         person_age=35,
         employee_role=Role.WORKER,
     )
     manager1 = Manager(
-        person_name="Brandon",
+        person_name="Brandon Smith",
         person_age=40,
         employee_role=Role.MANAGER,
     )
     manager2 = Manager(
-        person_name="Mark",
+        person_name="Markus Sextus",
         person_age=45,
         employee_role=Role.MANAGER,
     )
 
-    intern1 = Intern(person_name="Jennifer", person_age=20, employee_role=Role.INTERN)
-    intern2 = Intern(person_name="Brian", person_age=19, employee_role=Role.INTERN)
+    intern1 = Intern(
+        person_name="Jennifer Ivans", person_age=20, employee_role=Role.INTERN
+    )
+    intern2 = Intern(
+        person_name="Brian Donahue", person_age=19, employee_role=Role.INTERN
+    )
 
 
 def main() -> None:
