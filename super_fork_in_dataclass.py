@@ -38,44 +38,49 @@ class Employee:
         self.employee_id = generate_id(length=8)
 
     @property
-    def say_id(self) -> str:
-        """Displays the employee's id."""
-        return f"my id is {self.employee_id}"
+    def say_id_and_role(self) -> str:
+        """Displays the employee's id and role."""
+        if self.employee_role.value[0] in "aeiouAEIOU":
+            return f"my id is {self.employee_id} and I am an {self.employee_role.value}"
+        else:
+            return f"my id is {self.employee_id} and I am a {self.employee_role.value}"
 
     @property
     def say_email(self) -> str:
         """Displays the employee's email"""
         return f"my email is {self.email_address}"
 
+    @property
+    def description(self) -> str:
+        """Displays the employee's greeting"""
+        return f"My name is {self.person_name}, I am a {self.person_age} years old, {self.email_address}, {self.say_id_and_role}"
 
-@dataclass(kw_only=True)
+
+@dataclass
 class Worker(Employee):
     """Worker class"""
 
-    @property
-    def say_id_and_role(self):
-        """Adds a role of the worker."""
-        return f"{super().say_id} and I am a {self.employee_role.value}"
+
+@dataclass
+class Intern(Employee):
+    """Intern class"""
 
 
 @dataclass(kw_only=True)
 class Manager(Employee):
     """Manager class"""
 
-    @property
-    def say_id_and_role(self):
-        """Adds a role of the manager."""
-        return f"{super().say_id} and I am a {self.employee_role.value}"
+    managed_employees: list[str] = field(default_factory=list)
 
-
-@dataclass(kw_only=True)
-class Intern(Employee):
-    """Intern class"""
+    def add_employee(self, new_employee) -> None:
+        """Add a new employee to the managed_employees list."""
+        if new_employee not in self.managed_employees:
+            self.managed_employees.append(new_employee)
 
     @property
-    def say_id_and_role(self):
-        """Adds a role of the intern."""
-        return f"{super().say_id} and I am an {self.employee_role.value}"
+    def description(self) -> str:
+        """Extends the parent description method"""
+        return f"{super().description}. The employees under my supervision are {self.managed_employees}."
 
 
 class InstancesManager:
@@ -91,22 +96,31 @@ class InstancesManager:
         person_age=35,
         employee_role=Role.WORKER,
     )
-    manager1 = Manager(
-        person_name="Brandon Smith",
-        person_age=40,
-        employee_role=Role.MANAGER,
+    worker3 = Worker(
+        person_name="Alexander Octavian",
+        person_age=27,
+        employee_role=Role.WORKER,
     )
-    manager2 = Manager(
-        person_name="Markus Sextus",
-        person_age=45,
-        employee_role=Role.MANAGER,
-    )
-
     intern1 = Intern(
         person_name="Jennifer Ivans", person_age=20, employee_role=Role.INTERN
     )
     intern2 = Intern(
         person_name="Brian Donahue", person_age=19, employee_role=Role.INTERN
+    )
+    intern3 = Intern(
+        person_name="Bernard Johnson", person_age=22, employee_role=Role.INTERN
+    )
+    manager1 = Manager(
+        person_name="Brandon Smith",
+        person_age=40,
+        managed_employees=[worker1.person_name, worker2.person_name],
+        employee_role=Role.MANAGER,
+    )
+    manager2 = Manager(
+        person_name="Markus Sextus",
+        person_age=45,
+        managed_employees=[intern1.person_name, intern2.person_name],
+        employee_role=Role.MANAGER,
     )
 
 
@@ -115,37 +129,36 @@ def main() -> None:
 
     worker1 = InstancesManager.worker1
     worker2 = InstancesManager.worker2
+    worker3 = InstancesManager.worker3
 
-    workers = [worker1, worker2]
-
-    for worker in workers:
-        print(
-            f"My name is {worker.person_name}, I am {worker.person_age} years old, {worker.say_email}, {worker.say_id_and_role}"
-        )
-
-    print()
+    intern1 = InstancesManager.intern1
+    intern2 = InstancesManager.intern2
+    intern3 = InstancesManager.intern3
 
     manager1 = InstancesManager.manager1
     manager2 = InstancesManager.manager2
 
-    managers = [manager1, manager2]
+    workers = [worker1, worker2, worker3]
 
-    for manager in managers:
-        print(
-            f"My name is {manager.person_name}, I am {manager.person_age} years old, {manager.say_email}, {manager.say_id_and_role}"
-        )
+    for worker in workers:
+        print(worker.description)
 
     print()
 
-    intern1 = InstancesManager.intern1
-    intern2 = InstancesManager.intern2
-
-    interns = [intern1, intern2]
+    interns = [intern1, intern2, intern3]
 
     for intern in interns:
-        print(
-            f"My name is {intern.person_name}, I am {intern.person_age} years old, {intern.say_email}, {intern.say_id_and_role}"
-        )
+        print(intern.description)
+
+    print()
+
+    manager1.add_employee(worker3.person_name)
+    manager2.add_employee(intern3.person_name)
+
+    managers = [manager1, manager2]
+
+    for manager in managers:
+        print(manager.description)
 
 
 if __name__ == "__main__":
