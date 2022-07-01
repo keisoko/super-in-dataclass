@@ -83,60 +83,42 @@ class Manager(Employee):
         return f"{super().description}. The employees under my supervision are {self.managed_employees}."
 
 
-class InstancesManager:
-    """Holds the class instances"""
-
-    worker1 = Worker(
-        person_name="Mary Smith",
-        person_age=30,
-        employee_role=Role.WORKER,
-    )
-    worker2 = Worker(
-        person_name="John Doe",
-        person_age=35,
-        employee_role=Role.WORKER,
-    )
-    worker3 = Worker(
-        person_name="Alexander Octavian",
-        person_age=27,
-        employee_role=Role.WORKER,
-    )
-    intern1 = Intern(
-        person_name="Jennifer Ivans", person_age=20, employee_role=Role.INTERN
-    )
-    intern2 = Intern(
-        person_name="Brian Donahue", person_age=19, employee_role=Role.INTERN
-    )
-    intern3 = Intern(
-        person_name="Bernard Johnson", person_age=22, employee_role=Role.INTERN
-    )
-    manager1 = Manager(
-        person_name="Brandon Smith",
-        person_age=40,
-        managed_employees=[worker1.person_name, worker2.person_name],
-        employee_role=Role.MANAGER,
-    )
-    manager2 = Manager(
-        person_name="Markus Sextus",
-        person_age=45,
-        managed_employees=[intern1.person_name, intern2.person_name],
-        employee_role=Role.MANAGER,
-    )
+worker1 = Worker(
+    person_name="Mary Smith",
+    person_age=30,
+    employee_role=Role.WORKER,
+)
+worker2 = Worker(
+    person_name="John Doe",
+    person_age=35,
+    employee_role=Role.WORKER,
+)
+worker3 = Worker(
+    person_name="Alexander Octavian",
+    person_age=27,
+    employee_role=Role.WORKER,
+)
+intern1 = Intern(person_name="Jennifer Ivans", person_age=20, employee_role=Role.INTERN)
+intern2 = Intern(person_name="Brian Donahue", person_age=19, employee_role=Role.INTERN)
+intern3 = Intern(
+    person_name="Bernard Johnson", person_age=22, employee_role=Role.INTERN
+)
+manager1 = Manager(
+    person_name="Brandon Smith",
+    person_age=40,
+    managed_employees=[worker1.person_name, worker2.person_name],
+    employee_role=Role.MANAGER,
+)
+manager2 = Manager(
+    person_name="Markus Sextus",
+    person_age=45,
+    managed_employees=[intern1.person_name, intern2.person_name],
+    employee_role=Role.MANAGER,
+)
 
 
 def main() -> None:
     """Main function"""
-
-    worker1 = InstancesManager.worker1
-    worker2 = InstancesManager.worker2
-    worker3 = InstancesManager.worker3
-
-    intern1 = InstancesManager.intern1
-    intern2 = InstancesManager.intern2
-    intern3 = InstancesManager.intern3
-
-    manager1 = InstancesManager.manager1
-    manager2 = InstancesManager.manager2
 
     workers = [worker1, worker2, worker3]
 
