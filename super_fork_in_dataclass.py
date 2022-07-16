@@ -28,13 +28,10 @@ class Employee:
     person_name: str
     person_age: int
     employee_role: Role
-    email_address: str = field(init=False)
     employee_id: str = field(init=False)
 
     def __post_init__(self) -> None:
-        """Initialize the employee's id and email address."""
-        first_name, last_name = self.person_name.split(" ")
-        self.email_address = f"{first_name}.{last_name}@company.com"
+        """Initialize the employee's id."""
         self.employee_id = generate_id(length=8)
 
     @property
@@ -48,12 +45,13 @@ class Employee:
     @property
     def say_email(self) -> str:
         """Displays the employee's email"""
-        return f"my email is {self.email_address}"
+        first_name, last_name = self.person_name.split()
+        return f"{first_name.lower()}.{last_name.lower()}@company.com"
 
     @property
     def description(self) -> str:
         """Displays the employee's greeting"""
-        return f"My name is {self.person_name}, I am a {self.person_age} years old, {self.email_address}, {self.say_id_and_role}"
+        return f"My name is {self.person_name}, I am a {self.person_age} years old, my email address is {self.say_email}, {self.say_id_and_role}"
 
 
 @dataclass
