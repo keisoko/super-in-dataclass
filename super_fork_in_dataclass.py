@@ -142,30 +142,21 @@ manager2 = Manager(
 
 def execute_main() -> None:
 
-    worker1.apply_raise
-    worker2.apply_raise
-    worker3.apply_raise
-
     workers = [worker1, worker2, worker3]
 
     for worker in workers:
+        worker.apply_raise
         print(worker.description)
 
     print()
 
-    intern1.apply_raise
-    intern2.apply_raise
-    intern3.apply_raise
-
     interns = [intern1, intern2, intern3]
 
     for intern in interns:
+        intern.apply_raise
         print(intern.description)
 
     print()
-
-    manager1.apply_raise
-    manager2.apply_raise
 
     manager1.add_employee(worker3.person_name)
     manager2.add_employee(intern3.person_name)
@@ -173,6 +164,7 @@ def execute_main() -> None:
     managers = [manager1, manager2]
 
     for manager in managers:
+        manager.apply_raise
         print(manager.description)
 
 
