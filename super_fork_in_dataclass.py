@@ -7,7 +7,13 @@ import string
 from dataclasses import dataclass, field
 from enum import Enum
 
-PAY_RAISE_RATE = 1.04
+
+@dataclass(frozen=True)
+class ConstantNamespace:
+    PAY_RAISE_RATE = 1.04
+
+
+constant = ConstantNamespace()
 
 
 def generate_id(length: int):
@@ -43,11 +49,23 @@ class Employee:
     @property
     def apply_raise(self) -> None:
         """Applies the company raise rate to the employee's payment amount"""
-        self.employee_pay_amount = int(self.employee_pay_amount * PAY_RAISE_RATE)
+        self.employee_pay_amount = int(
+            self.employee_pay_amount * constant.PAY_RAISE_RATE
+        )
 
     @property
-    def description(self) -> str:
-        """Displays the employee's greeting"""
+    def say_email(self) -> str:
+        """Returns the email address"""
+        return self.employee_email
+
+    @property
+    def say_pay_amount(self) -> int:
+        """Returns the employee's pay amount"""
+        return self.employee_pay_amount
+
+    @property
+    def say_description(self) -> str:
+        """Displays the employee's description"""
         return f"My name is {self.person_name}, I am a {self.person_age} years old, my email address is {self.employee_email}"
 
 
@@ -56,9 +74,14 @@ class Worker(Employee):
     """Worker class"""
 
     @property
-    def description(self) -> str:
+    def say_description(self) -> str:
         """Extends the parent description method."""
-        return f"{super().description}. My id is {self.employee_id} and I am a {self.employee_role.value}. My pay is ${self.employee_pay_amount:,}."
+        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
+
+    @property
+    def say_worker_id_role(self) -> str:
+        """Returns the worker id and role"""
+        return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
 
 
 @dataclass
@@ -66,9 +89,14 @@ class Intern(Employee):
     """Intern class"""
 
     @property
-    def description(self) -> str:
+    def say_description(self) -> str:
         """Extends the parent description method."""
-        return f"{super().description}. My id is {self.employee_id} and I am an {self.employee_role.value}. My pay is ${self.employee_pay_amount:,}."
+        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
+
+    @property
+    def say_intern_id_and_role(self) -> str:
+        """Returns the intern id and role"""
+        return f"My id is {self.employee_id} and I am an {self.employee_role.value}."
 
 
 @dataclass(kw_only=True)
@@ -83,9 +111,19 @@ class Manager(Employee):
             self.managed_employees.append(new_employee)
 
     @property
-    def description(self) -> str:
+    def say_description(self) -> str:
         """Extends the parent description method"""
-        return f"{super().description}. My id is {self.employee_id} and I am a {self.employee_role.value}. The employees under my supervision are {self.managed_employees} and my pay is ${self.employee_pay_amount:,}."
+        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
+
+    @property
+    def say_manager_id_and_role(self) -> str:
+        """Returns the manager id and role"""
+        return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
+
+    @property
+    def say_supervised_employees(self) -> str:
+        """Returns employees that are supervised by the manger"""
+        return f"The employees under my supervision are {self.managed_employees}."
 
 
 worker1 = Worker(
@@ -146,7 +184,8 @@ def execute_main() -> None:
 
     for worker in workers:
         worker.apply_raise
-        print(worker.description)
+        print(worker.say_description)
+        print(worker.say_worker_id_role, "\n")
 
     print()
 
@@ -154,7 +193,8 @@ def execute_main() -> None:
 
     for intern in interns:
         intern.apply_raise
-        print(intern.description)
+        print(intern.say_description)
+        print(intern.say_intern_id_and_role, "\n")
 
     print()
 
@@ -165,7 +205,9 @@ def execute_main() -> None:
 
     for manager in managers:
         manager.apply_raise
-        print(manager.description)
+        print(manager.say_description)
+        print(manager.say_manager_id_and_role)
+        print(manager.say_supervised_employees, "\n")
 
 
 if __name__ == "__main__":
