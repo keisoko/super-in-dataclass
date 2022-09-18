@@ -29,7 +29,7 @@ class Role(Enum):
     INTERN = "Intern"
 
 
-@dataclass(slots=True, kw_only=True)
+@dataclass(slots=True, kw_only=True, order=True)
 class Employee:
     """Employee parent class."""
 
@@ -56,27 +56,22 @@ class Employee:
     @property
     def say_email(self) -> str:
         """Returns the email address"""
-        return self.employee_email
+        return f"My email address is {self.employee_email}"
 
     @property
-    def say_pay_amount(self) -> int:
+    def say_pay_amount(self) -> str:
         """Returns the employee's pay amount"""
-        return self.employee_pay_amount
+        return f"My pay is ${self.employee_pay_amount:_}."
 
     @property
     def say_description(self) -> str:
         """Displays the employee's description"""
-        return f"My name is {self.person_name}, I am a {self.person_age} years old, my email address is {self.employee_email}"
+        return f"My name is {self.person_name} and I am a {self.person_age} years old."
 
 
 @dataclass
 class Worker(Employee):
     """Worker class"""
-
-    @property
-    def say_description(self) -> str:
-        """Extends the parent description method."""
-        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
 
     @property
     def say_worker_id_role(self) -> str:
@@ -87,11 +82,6 @@ class Worker(Employee):
 @dataclass
 class Intern(Employee):
     """Intern class"""
-
-    @property
-    def say_description(self) -> str:
-        """Extends the parent description method."""
-        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
 
     @property
     def say_intern_id_and_role(self) -> str:
@@ -109,11 +99,6 @@ class Manager(Employee):
         """Add a new employee to the managed_employees list."""
         if new_employee not in self.managed_employees:
             self.managed_employees.append(new_employee)
-
-    @property
-    def say_description(self) -> str:
-        """Extends the parent description method"""
-        return f"{super().say_description}. My pay is ${self.say_pay_amount:,}."
 
     @property
     def say_manager_id_and_role(self) -> str:
@@ -181,19 +166,25 @@ manager2 = Manager(
 def execute_main() -> None:
 
     workers = [worker1, worker2, worker3]
+    sorted_workers = sorted(workers, key=lambda worker: worker.person_age)
 
-    for worker in workers:
+    for worker in sorted_workers:
         worker.apply_raise
         print(worker.say_description)
+        print(worker.say_email)
+        print(worker.say_pay_amount)
         print(worker.say_worker_id_role, "\n")
 
     print()
 
     interns = [intern1, intern2, intern3]
+    sorted_interns = sorted(interns, key=lambda intern: intern.person_age)
 
-    for intern in interns:
+    for intern in sorted_interns:
         intern.apply_raise
         print(intern.say_description)
+        print(intern.say_email)
+        print(intern.say_pay_amount)
         print(intern.say_intern_id_and_role, "\n")
 
     print()
@@ -206,6 +197,8 @@ def execute_main() -> None:
     for manager in managers:
         manager.apply_raise
         print(manager.say_description)
+        print(manager.say_email)
+        print(manager.say_pay_amount)
         print(manager.say_manager_id_and_role)
         print(manager.say_supervised_employees, "\n")
 
