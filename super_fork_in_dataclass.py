@@ -163,16 +163,20 @@ manager2 = Manager(
 )
 
 
+def about_employees(employee):
+    employee.apply_raise
+    print(employee.say_description)
+    print(employee.say_email)
+    print(employee.say_pay_amount)
+
+
 def execute_main() -> None:
 
     workers = [worker1, worker2, worker3]
     sorted_workers = sorted(workers, key=lambda worker: worker.person_age)
 
     for worker in sorted_workers:
-        worker.apply_raise
-        print(worker.say_description)
-        print(worker.say_email)
-        print(worker.say_pay_amount)
+        about_employees(worker)
         print(worker.say_worker_id_role, "\n")
 
     print()
@@ -181,10 +185,7 @@ def execute_main() -> None:
     sorted_interns = sorted(interns, key=lambda intern: intern.person_age)
 
     for intern in sorted_interns:
-        intern.apply_raise
-        print(intern.say_description)
-        print(intern.say_email)
-        print(intern.say_pay_amount)
+        about_employees(intern)
         print(intern.say_intern_id_and_role, "\n")
 
     print()
@@ -195,10 +196,7 @@ def execute_main() -> None:
     managers = [manager1, manager2]
 
     for manager in managers:
-        manager.apply_raise
-        print(manager.say_description)
-        print(manager.say_email)
-        print(manager.say_pay_amount)
+        about_employees(manager)
         print(manager.say_manager_id_and_role)
         print(manager.say_supervised_employees, "\n")
 
