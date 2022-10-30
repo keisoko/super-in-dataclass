@@ -106,16 +106,6 @@ class Manager(Employee):
         if new_employee not in self.managed_employees:
             self.managed_employees.append(new_employee)
 
-    @property
-    def say_manager_id_and_role(self) -> str:
-        """Returns the manager id and role"""
-        return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
-
-    @property
-    def say_supervised_employees(self) -> str:
-        """Returns employees that are supervised by the manger"""
-        return f"The employees under my supervision are {self.managed_employees}."
-
 
 worker1 = Employee(
     person_name="Mary Smith",
@@ -205,6 +195,17 @@ def about_employees(employee):
     print(employee.say_id_and_role)
 
 
+def say_supervised_employees(role) -> str | None:
+    """Returns employees that are supervised by the manager"""
+    match role:
+        case Role.WORKER:
+            return f"The {Role.WORKER.value}s under {manager1.person_name} supervision are {manager1.managed_employees}."
+        case Role.INTERN:
+            return f"The {Role.INTERN.value}s under {manager2.person_name} supervision are {manager2.managed_employees}"
+        case Role.DEVELOPER:
+            return f"The {Role.DEVELOPER.value}s under {manager3.person_name} supervision are {manager3.managed_employees}"
+
+
 def execute_main() -> None:
 
     print()
@@ -242,7 +243,11 @@ def execute_main() -> None:
 
     for manager in managers:
         about_employees(manager)
-        print(manager.say_supervised_employees, "\n")
+        print()
+
+    print(say_supervised_employees(Role.WORKER))
+    print(say_supervised_employees(Role.INTERN))
+    print(say_supervised_employees(Role.DEVELOPER))
 
 
 if __name__ == "__main__":
