@@ -195,6 +195,18 @@ def about_employees(employee):
     print(employee.say_id_and_role)
 
 
+def sorted_employees_output(
+    employee1: Employee, employee2: Employee, employee3: Employee
+) -> None:
+    """Outputs class instances sorted by employee age"""
+    employees = [employee1, employee2, employee3]
+    sorted_employees = sorted(employees, key=lambda employee: employee.person_age)
+
+    for employee in sorted_employees:
+        about_employees(employee)
+        print()
+
+
 def say_supervised_employees(role) -> str | None:
     """Returns employees that are supervised by the manager"""
     match role:
@@ -210,19 +222,8 @@ def execute_main() -> None:
 
     print()
 
-    workers = [worker1, worker2, worker3]
-    sorted_workers = sorted(workers, key=lambda worker: worker.person_age)
-
-    for worker in sorted_workers:
-        about_employees(worker)
-        print()
-
-    interns = [intern1, intern2, intern3]
-    sorted_interns = sorted(interns, key=lambda intern: intern.person_age)
-
-    for intern in sorted_interns:
-        about_employees(intern)
-        print()
+    sorted_employees_output(worker1, worker2, worker3)
+    sorted_employees_output(intern1, intern2, intern3)
 
     developer1.add_programming_language("Go")
     developer2.add_programming_language("Swift")
