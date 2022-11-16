@@ -107,6 +107,39 @@ class Manager(Employee):
             self.managed_employees.append(new_employee)
 
 
+def about_employees(employee: Employee) -> None:
+    employee.apply_raise
+    print(employee.say_description)
+    print(employee.say_email)
+    print(employee.say_pay_amount)
+    print(employee.say_id_and_role)
+
+
+def sorted_employees_output(
+    employee1: Employee, employee2: Employee, employee3: Employee
+) -> None:
+    """Outputs class instances sorted by employee age"""
+    employees = [employee1, employee2, employee3]
+    sorted_employees_by_age = sorted(
+        employees, key=lambda employee: employee.person_age
+    )
+
+    for employee in sorted_employees_by_age:
+        about_employees(employee)
+        print()
+
+
+def say_supervised_employees(role: Role) -> str | None:
+    """Returns employees that are supervised by the particular manager"""
+    match role:
+        case Role.WORKER:
+            return f"The {Role.WORKER.value}s under {manager1.person_name} supervision are {manager1.managed_employees}."
+        case Role.INTERN:
+            return f"The {Role.INTERN.value}s under {manager2.person_name} supervision are {manager2.managed_employees}."
+        case Role.DEVELOPER:
+            return f"The {Role.DEVELOPER.value}s under {manager3.person_name} supervision are {manager3.managed_employees}."
+
+
 worker1 = Employee(
     person_name="Mary Smith",
     person_age=30,
@@ -185,37 +218,6 @@ manager3 = Manager(
     managed_employees=[developer1.person_name, developer2.person_name],
     employee_role=Role.MANAGER,
 )
-
-
-def about_employees(employee):
-    employee.apply_raise
-    print(employee.say_description)
-    print(employee.say_email)
-    print(employee.say_pay_amount)
-    print(employee.say_id_and_role)
-
-
-def sorted_employees_output(
-    employee1: Employee, employee2: Employee, employee3: Employee
-) -> None:
-    """Outputs class instances sorted by employee age"""
-    employees = [employee1, employee2, employee3]
-    sorted_employees = sorted(employees, key=lambda employee: employee.person_age)
-
-    for employee in sorted_employees:
-        about_employees(employee)
-        print()
-
-
-def say_supervised_employees(role) -> str | None:
-    """Returns employees that are supervised by the manager"""
-    match role:
-        case Role.WORKER:
-            return f"The {Role.WORKER.value}s under {manager1.person_name} supervision are {manager1.managed_employees}."
-        case Role.INTERN:
-            return f"The {Role.INTERN.value}s under {manager2.person_name} supervision are {manager2.managed_employees}"
-        case Role.DEVELOPER:
-            return f"The {Role.DEVELOPER.value}s under {manager3.person_name} supervision are {manager3.managed_employees}"
 
 
 def execute_main() -> None:
