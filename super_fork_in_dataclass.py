@@ -16,9 +16,9 @@ class ConstantNamespace:
 constant = ConstantNamespace()
 
 
-def generate_id(length: int):
+def generate_id():
     """Helper function to generate id."""
-    return "".join(random.choices(string.hexdigits.upper(), k=length))
+    return "".join(random.choices(string.hexdigits.upper(), k=8))
 
 
 class Role(StrEnum):
@@ -30,7 +30,7 @@ class Role(StrEnum):
     MANAGER = auto()
 
 
-@dataclass(slots=True, kw_only=True, order=True)
+@dataclass(slots=True, kw_only=True)
 class Employee:
     """Employee parent class."""
 
@@ -38,14 +38,31 @@ class Employee:
     person_age: int
     employee_pay_amount: int
     employee_role: Role
-    employee_id: str = field(init=False)
+    employee_id: str = field(init=False, default_factory=generate_id)
     employee_email: str = field(init=False)
 
     def __post_init__(self) -> None:
-        """Initialize the employee's id."""
-        self.employee_id = generate_id(length=8)
+        """Initialize the employee's email."""
         first_name, last_name = self.person_name.split()
         self.employee_email = f"{first_name.lower()}.{last_name.lower()}@company.com"
+
+    @property
+    def describe_employee(self) -> str:
+        """Displays the employee's description"""
+        return f"My name is {self.person_name} and I am a {self.person_age} years old."
+
+    @property
+    def display_email(self) -> str:
+        """Returns the email address"""
+        return f"My email address is {self.employee_email}"
+
+    @property
+    def display_id_and_role(self) -> str:
+        """Returns the employee's id and role"""
+        if self.employee_role.value[0] in "aeiou":
+            return f"My id is {self.employee_id} and I am an {self.employee_role.value.capitalize()}."
+        else:
+            return f"My id is {self.employee_id} and I am a {self.employee_role.value.capitalize()}."
 
     @property
     def apply_raise(self) -> None:
@@ -55,27 +72,9 @@ class Employee:
         )
 
     @property
-    def say_email(self) -> str:
-        """Returns the email address"""
-        return f"My email address is {self.employee_email}"
-
-    @property
-    def say_pay_amount(self) -> str:
+    def display_pay_amount(self) -> str:
         """Returns the employee's pay amount"""
         return f"My pay is ${self.employee_pay_amount:_}."
-
-    @property
-    def say_description(self) -> str:
-        """Displays the employee's description"""
-        return f"My name is {self.person_name} and I am a {self.person_age} years old."
-
-    @property
-    def say_id_and_role(self) -> str:
-        """Returns the employee's id and role"""
-        if self.employee_role.value[0] in "aeiou":
-            return f"My id is {self.employee_id} and I am an {self.employee_role.value.capitalize()}."
-        else:
-            return f"My id is {self.employee_id} and I am a {self.employee_role.value.capitalize()}."
 
 
 @dataclass
@@ -90,7 +89,7 @@ class Developer(Employee):
             self.programming_languages.append(new_language)
 
     @property
-    def say_programming_languages(self) -> str | list[str]:
+    def display_programming_languages(self) -> str | list[str]:
         """Returns the list of programming languages"""
         return f"My programming languages are {self.programming_languages}"
 
@@ -109,27 +108,23 @@ class Manager(Employee):
 
 def about_employees(employee: Employee) -> None:
     employee.apply_raise
-    print(employee.say_description)
-    print(employee.say_email)
-    print(employee.say_pay_amount)
-    print(employee.say_id_and_role)
+    print(employee.describe_employee)
+    print(employee.display_email)
+    print(employee.display_pay_amount)
+    print(employee.display_id_and_role)
 
 
-def sorted_employees_output(
+def employees_output(
     employee1: Employee, employee2: Employee, employee3: Employee
 ) -> None:
-    """Outputs class instances sorted by employee age"""
+    """Outputs class instances"""
     employees = [employee1, employee2, employee3]
-    sorted_employees_by_age = sorted(
-        employees, key=lambda employee: employee.person_age
-    )
-
-    for employee in sorted_employees_by_age:
+    for employee in employees:
         about_employees(employee)
         print()
 
 
-def say_supervised_employees(role: Role) -> str | None:
+def display_supervised_employees(role: Role) -> str | None:
     """Returns employees that are supervised by the particular manager"""
     match role:
         case Role.WORKER:
@@ -224,8 +219,8 @@ def execute_main() -> None:
 
     print()
 
-    sorted_employees_output(worker1, worker2, worker3)
-    sorted_employees_output(intern1, intern2, intern3)
+    employees_output(worker1, worker2, worker3)
+    employees_output(intern1, intern2, intern3)
 
     developer1.add_programming_language("Go")
     developer2.add_programming_language("Swift")
@@ -236,7 +231,7 @@ def execute_main() -> None:
 
     for developer in sorted_developers:
         about_employees(developer)
-        print(developer.say_programming_languages, "\n")
+        print(developer.display_programming_languages, "\n")
 
     manager1.add_employee(worker3.person_name)
     manager2.add_employee(intern3.person_name)
@@ -248,9 +243,9 @@ def execute_main() -> None:
         about_employees(manager)
         print()
 
-    print(say_supervised_employees(Role.WORKER))
-    print(say_supervised_employees(Role.INTERN))
-    print(say_supervised_employees(Role.DEVELOPER))
+    print(display_supervised_employees(Role.WORKER))
+    print(display_supervised_employees(Role.INTERN))
+    print(display_supervised_employees(Role.DEVELOPER))
 
 
 if __name__ == "__main__":
