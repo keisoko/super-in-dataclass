@@ -44,7 +44,7 @@ class Employee:
     def __post_init__(self) -> None:
         """Initialize the employee's email."""
         first_name, last_name = self.person_name.split()
-        self.employee_email = f"{first_name.lower()}.{last_name.lower()}@company.com"
+        self.employee_email = f"{first_name.lower()}_{last_name.lower()}@company.com"
 
     @property
     def describe_employee(self) -> str:
