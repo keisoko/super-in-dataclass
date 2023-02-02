@@ -3,9 +3,9 @@ Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass
 """
 
 import random
-import string
 from dataclasses import dataclass, field
 from enum import StrEnum, auto
+from uuid import uuid4
 
 
 @dataclass(frozen=True)
@@ -16,9 +16,9 @@ class ConstantNamespace:
 constant = ConstantNamespace()
 
 
-def generate_id():
+def generate_id() -> str:
     """Helper function to generate id."""
-    return "".join(random.choices(string.hexdigits.upper(), k=8))
+    return uuid4().hex
 
 
 class Role(StrEnum):
