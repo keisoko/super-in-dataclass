@@ -2,7 +2,6 @@
 Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init__, and Enum 
 """
 
-import random
 from dataclasses import dataclass, field
 from enum import StrEnum, auto
 from uuid import uuid4
@@ -47,22 +46,14 @@ class Employee:
         self.employee_email = f"{first_name.lower()}_{last_name.lower()}@company.com"
 
     @property
-    def describe_employee(self) -> str:
-        """Displays the employee's description"""
-        return f"My name is {self.person_name} and I am a {self.person_age} years old."
-
-    @property
-    def display_email(self) -> str:
-        """Returns the email address"""
-        return f"My email address is {self.employee_email}"
-
-    @property
     def display_id_and_role(self) -> str:
         """Returns the employee's id and role"""
         if self.employee_role.value[0] in "aeiou":
-            return f"My id is {self.employee_id} and I am an {self.employee_role.value.capitalize()}."
+            return (
+                f"My id is {self.employee_id} and I am an {self.employee_role.value}."
+            )
         else:
-            return f"My id is {self.employee_id} and I am a {self.employee_role.value.capitalize()}."
+            return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
 
     @property
     def apply_raise(self) -> None:
@@ -70,11 +61,6 @@ class Employee:
         self.employee_pay_amount = int(
             self.employee_pay_amount * constant.PAY_RAISE_RATE
         )
-
-    @property
-    def display_pay_amount(self) -> str:
-        """Returns the employee's pay amount"""
-        return f"My pay is ${self.employee_pay_amount:_}."
 
 
 @dataclass
@@ -108,9 +94,11 @@ class Manager(Employee):
 
 def about_employees(employee: Employee) -> None:
     employee.apply_raise
-    print(employee.describe_employee)
-    print(employee.display_email)
-    print(employee.display_pay_amount)
+    print(
+        f"My name is {employee.person_name} and I am {employee.person_age} years old."
+    )
+    print(f"My email address is {employee.employee_email}")
+    print(f"My pay is ${employee.employee_pay_amount:,}.")
     print(employee.display_id_and_role)
 
 
