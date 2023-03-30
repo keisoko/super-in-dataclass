@@ -1,5 +1,5 @@
 """
-Fork of  the Codecademy Intermediate Python 3 OOP lesson on super() in dataclass syntax with __post_init__, and Enum 
+Fork of  the Codecademy OOP lesson on super() in dataclass syntax 
 """
 
 from dataclasses import dataclass, field
@@ -9,6 +9,8 @@ from uuid import uuid4
 
 @dataclass(frozen=True)
 class ConstantNamespace:
+    """Constant namespace"""
+
     PAY_RAISE_RATE = 1.04
 
 
@@ -55,7 +57,6 @@ class Employee:
         else:
             return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
 
-    @property
     def apply_raise(self) -> None:
         """Applies the company raise rate to the employee's payment amount"""
         self.employee_pay_amount = int(
@@ -93,7 +94,8 @@ class Manager(Employee):
 
 
 def about_employees(employee: Employee) -> None:
-    employee.apply_raise
+    """Employees info complication"""
+    employee.apply_raise()
     print(
         f"My name is {employee.person_name} and I am {employee.person_age} years old."
     )
@@ -113,14 +115,14 @@ def employees_output(
 
 
 def display_supervised_employees(role: Role) -> str | None:
-    """Returns employees that are supervised by the particular manager"""
+    """Returns which employees are supervised by which manager"""
     match role:
         case Role.WORKER:
-            return f"The {Role.WORKER.value}s under {manager1.person_name} supervision are {manager1.managed_employees}."
+            return f"The {Role.WORKER}s are supervised by {manager1.person_name}."
         case Role.INTERN:
-            return f"The {Role.INTERN.value}s under {manager2.person_name} supervision are {manager2.managed_employees}."
+            return f"The {Role.INTERN}s are supervised by {manager2.person_name}."
         case Role.DEVELOPER:
-            return f"The {Role.DEVELOPER.value}s under {manager3.person_name} supervision are {manager3.managed_employees}."
+            return f"The {Role.DEVELOPER}s are supervised by {manager3.person_name}."
 
 
 worker1 = Employee(
@@ -204,6 +206,7 @@ manager3 = Manager(
 
 
 def execute_main() -> None:
+    """Main function to execute"""
 
     print()
 
