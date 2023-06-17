@@ -50,6 +50,10 @@ class Employee:
     @property
     def display_id_and_role(self) -> str:
         """Returns the employee's id and role"""
+        if self.employee_role.startswith(("a", "e", "i", "o", "u")):
+            return (
+                f"My id is {self.employee_id} and I am an {self.employee_role.value}."
+            )
         return f"My id is {self.employee_id} and I am a {self.employee_role.value}."
 
     def apply_raise(self) -> None:
