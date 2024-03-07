@@ -43,9 +43,12 @@ class Employee:
     employee_email: str = field(init=False)
 
     def __post_init__(self) -> None:
-        """Initialize the employee's email."""
-        first_name, last_name = self.person_name.split()
-        self.employee_email = f"{first_name.lower()}_{last_name.lower()}@company.com"
+        """Initializes the employee's email."""
+        email_username = self.person_name.casefold().split()
+        if len(email_username) > 1:
+            self.employee_email = f"{"_".join(email_username)}@company.com"
+        else:    
+            self.employee_email = f"{email_username[0]}@company.com"
 
     @property
     def display_id_and_role(self) -> str:
